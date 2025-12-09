@@ -47,4 +47,3 @@ public class UserController {
         log.info("Удалён пользователь с ID {}", id);
     }
 }
-//smth2
