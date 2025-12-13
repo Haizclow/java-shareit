@@ -1,19 +1,18 @@
 package ru.practicum.shareit.item;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.practicum.shareit.user.User;
 
 import java.util.Objects;
 
 @Getter
 @Setter
-@ToString(exclude = "owner") // Исключаем LAZY-поле
+@ToString(exclude = "owner")
 @Entity
 @Table(name = "items")
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Item {
 

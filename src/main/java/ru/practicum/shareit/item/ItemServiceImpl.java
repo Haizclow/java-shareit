@@ -6,6 +6,7 @@ import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.BookingServiceImpl;
 import ru.practicum.shareit.exception.ForbiddenException;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.comment.CommentDto;
 import ru.practicum.shareit.item.comment.CommentMapper;
 import ru.practicum.shareit.item.comment.CommentRepository;
@@ -48,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
 
         Item existing = itemRepository.findById(itemId)
                 .orElseThrow(() ->
-                        new NoSuchElementException("Вещь с id " + itemId + " не найдена"));
+                        new NotFoundException("Вещь с id " + itemId + " не найдена"));
 
         if (!existing.getOwner().getId().equals(ownerId)) {
             throw new ForbiddenException("Редактировать вещь может только её владелец");
@@ -65,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto getItemById(Long itemId, Long userId) {
 
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NoSuchElementException("Вещь не найдена"));
+                .orElseThrow(() -> new NotFoundException("Вещь не найдена"));
 
         List<CommentDto> comments = commentRepository.findAllByItemId(itemId).stream()
                 .map(CommentMapper::toCommentDto)
