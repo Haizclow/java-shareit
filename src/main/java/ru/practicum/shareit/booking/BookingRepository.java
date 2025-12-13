@@ -16,10 +16,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByBooker(@Param("bookerId") Long bookerId);
 
     @Query("""
-        SELECT b FROM Booking b 
-        WHERE b.booker.id = :bookerId 
-          AND b.start < :end 
-          AND b.end > :start 
+        SELECT b FROM Booking b
+        WHERE b.booker.id = :bookerId
+          AND b.start < :end
+          AND b.end > :start
         ORDER BY b.start DESC
     """)
     List<Booking> findCurrentByBooker(@Param("bookerId") Long bookerId,
@@ -27,25 +27,25 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                                       @Param("end") LocalDateTime end);
 
     @Query("""
-        SELECT b FROM Booking b 
-        WHERE b.booker.id = :bookerId 
-          AND b.end < :now 
+        SELECT b FROM Booking b
+        WHERE b.booker.id = :bookerId
+          AND b.end < :now
         ORDER BY b.start DESC
     """)
     List<Booking> findPastByBooker(@Param("bookerId") Long bookerId, @Param("now") LocalDateTime now);
 
     @Query("""
-        SELECT b FROM Booking b 
-        WHERE b.booker.id = :bookerId 
-          AND b.start > :now 
+        SELECT b FROM Booking b
+        WHERE b.booker.id = :bookerId
+          AND b.start > :now
         ORDER BY b.start DESC
     """)
     List<Booking> findFutureByBooker(@Param("bookerId") Long bookerId, @Param("now") LocalDateTime now);
 
     @Query("""
-        SELECT b FROM Booking b 
-        WHERE b.booker.id = :bookerId 
-          AND b.status = :status 
+        SELECT b FROM Booking b
+        WHERE b.booker.id = :bookerId
+          AND b.status = :status
         ORDER BY b.start DESC
     """)
     List<Booking> findByBookerAndStatus(@Param("bookerId") Long bookerId,
