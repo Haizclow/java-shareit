@@ -20,7 +20,6 @@ public class ItemController {
     @PostMapping
     public ItemDto createItem(@Valid @RequestBody ItemDto dto,
                               @RequestHeader("X-Sharer-User-Id") Long ownerId) {
-        Item item = ItemMapper.toItem(dto);
         Item createdItem = itemService.createItem(dto, ownerId);
         return ItemMapper.toItemDto(createdItem);
     }
@@ -34,17 +33,13 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItemById(
-            @PathVariable Long itemId,
-            @RequestHeader("X-Sharer-User-Id") Long userId
-    ) {
+    public ItemDto getItemById(@PathVariable Long itemId,
+                               @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getItemById(itemId, userId);
     }
 
     @GetMapping
-    public Collection<ItemDto> getItemsByOwner(
-            @RequestHeader("X-Sharer-User-Id") Long ownerId
-    ) {
+    public Collection<ItemDto> getItemsByOwner(@RequestHeader("X-Sharer-User-Id") Long ownerId) {
         List<Item> items = itemService.getItemsByOwner(ownerId);
         return items.stream()
                 .map(ItemMapper::toItemDto)
@@ -52,9 +47,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(
-            @RequestParam String text
-    ) {
+    public List<ItemDto> search(@RequestParam String text) {
         List<Item> items = itemService.search(text);
         return items.stream()
                 .map(ItemMapper::toItemDto)
