@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -18,6 +19,7 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ItemDto createItem(@Valid @RequestBody ItemDto dto,
                               @RequestHeader("X-Sharer-User-Id") Long ownerId) {
         Item createdItem = itemService.createItem(dto, ownerId);

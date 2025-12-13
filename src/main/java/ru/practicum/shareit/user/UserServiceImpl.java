@@ -2,9 +2,9 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.NotFoundException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -24,14 +24,13 @@ class UserServiceImpl implements UserService {
     public UserDto getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() ->
-                        new NoSuchElementException("Пользователь с id " + id + " не найден"));
+                        new NotFoundException("Пользователь с id " + id + " не найден"));
 
         return UserMapper.toUserDto(user);
     }
 
     @Override
     public UserDto createUser(UserDto dto) {
-
         if (userRepository.existsByEmailIgnoreCase(dto.getEmail())) {
             throw new IllegalStateException(
                     "Пользователь с таким email уже существует: " + dto.getEmail()
@@ -39,7 +38,6 @@ class UserServiceImpl implements UserService {
         }
 
         User user = UserMapper.toUser(dto);
-
         User saved = userRepository.save(user);
 
         return UserMapper.toUserDto(saved);
@@ -49,7 +47,7 @@ class UserServiceImpl implements UserService {
     public UserDto updateUser(Long id, UserDto dto) {
         User existing = userRepository.findById(id)
                 .orElseThrow(() ->
-                        new NoSuchElementException("Пользователь с id " + id + " не найден"));
+                        new NotFoundException("Пользователь с id " + id + " не найден"));
 
         if (dto.getEmail() != null) {
             boolean emailInUse =
@@ -76,7 +74,7 @@ class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new NoSuchElementException("Пользователь с id " + id + " не найден");
+            throw new NotFoundException("Пользователь с id " + id + " не найден");
         }
         userRepository.deleteById(id);
     }
@@ -84,7 +82,6 @@ class UserServiceImpl implements UserService {
     @Override
     public User getUserEntity(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Пользователь не найден"));
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
     }
-
 }
