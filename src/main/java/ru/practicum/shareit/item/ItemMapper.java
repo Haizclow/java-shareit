@@ -1,52 +1,48 @@
 package ru.practicum.shareit.item;
 
+import lombok.Builder;
 import ru.practicum.shareit.item.comment.CommentDto;
 
 import java.util.List;
 
+@Builder
 public class ItemMapper {
 
     public static ItemDto toItemDto(Item item) {
-        ItemDto dto = new ItemDto();
-        dto.setId(item.getId());
-        dto.setName(item.getName());
-        dto.setDescription(item.getDescription());
-        dto.setAvailable(item.getAvailable());
-
-        dto.setLastBooking(null);
-        dto.setNextBooking(null);
-        dto.setComments(List.of());
-
-        return dto;
+        return ItemDto.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .available(item.getAvailable())
+                .lastBooking(null)
+                .nextBooking(null)
+                .comments(List.of())
+                .build();
     }
 
     public static ItemDto toItemDto(Item item,
                                     Object lastBooking,
                                     Object nextBooking,
                                     List<CommentDto> comments) {
-
-        ItemDto dto = new ItemDto();
-        dto.setId(item.getId());
-        dto.setName(item.getName());
-        dto.setDescription(item.getDescription());
-        dto.setAvailable(item.getAvailable());
-
-        dto.setLastBooking(lastBooking);
-        dto.setNextBooking(nextBooking);
-        dto.setComments(comments);
-
-        return dto;
+        return ItemDto.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .available(item.getAvailable())
+                .lastBooking(lastBooking)
+                .nextBooking(nextBooking)
+                .comments(comments)
+                .build();
     }
 
     public static Item toItem(ItemDto dto) {
         if (dto == null) return null;
 
-        Item item = new Item();
-        item.setId(dto.getId());
-        item.setDescription(dto.getDescription());
-        item.setAvailable(dto.getAvailable());
-        item.setName(dto.getName());
-
-        return item;
+        return Item.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .available(dto.getAvailable())
+                .build();
     }
 }
