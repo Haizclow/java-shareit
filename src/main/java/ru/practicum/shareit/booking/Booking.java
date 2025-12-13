@@ -1,10 +1,7 @@
 package ru.practicum.shareit.booking;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.user.User;
 
@@ -17,6 +14,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "bookings")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Booking {
 
     @Id

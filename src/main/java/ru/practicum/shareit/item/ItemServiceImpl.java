@@ -17,7 +17,6 @@ import ru.practicum.shareit.user.User;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -32,9 +31,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item createItem(ItemDto dto, Long ownerId) {
-
         User owner = userRepository.findById(ownerId)
-                .orElseThrow(() -> new NoSuchElementException("Пользователь не найден"));
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
         Item item = ItemMapper.toItem(dto);
         item.setOwner(owner);
@@ -44,7 +42,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item updateItem(Long itemId, ItemDto dto, Long ownerId) {
-
         userService.getUserById(ownerId);
 
         Item existing = itemRepository.findById(itemId)
@@ -64,7 +61,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto getItemById(Long itemId, Long userId) {
-
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Вещь не найдена"));
 
@@ -76,7 +72,6 @@ public class ItemServiceImpl implements ItemService {
         Object nextBooking = null;
 
         if (item.getOwner().getId().equals(userId)) {
-
             Booking last = bookingService.findLastBooking(itemId);
             Booking next = bookingService.findNextBooking(itemId);
 
@@ -102,7 +97,6 @@ public class ItemServiceImpl implements ItemService {
                 comments
         );
     }
-
 
     @Override
     public List<Item> getItemsByOwner(Long ownerId) {

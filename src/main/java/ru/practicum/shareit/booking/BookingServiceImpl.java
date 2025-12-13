@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingRequestDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.exception.ForbiddenException;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.ItemRepository;
@@ -15,7 +16,6 @@ import ru.practicum.shareit.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class BookingServiceImpl implements BookingService {
         User booker = userService.getUserEntity(userId);
 
         Item item = itemRepository.findById(dto.getItemId())
-                .orElseThrow(() -> new NoSuchElementException("Вещь не найдена"));
+                .orElseThrow(() -> new NotFoundException("Вещь не найдена"));
 
         validateBookingRequest(dto, item, userId);
 
@@ -48,7 +48,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingResponseDto approveBooking(Long bookingId, Long ownerId, boolean approved) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new NoSuchElementException("Бронь не найдена"));
+                .orElseThrow(() -> new NotFoundException("Бронь не найдена"));
 
         Item item = booking.getItem();
 
@@ -73,13 +73,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingResponseDto getBooking(Long bookingId, Long userId) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new NoSuchElementException("Бронь не найдена"));
+                .orElseThrow(() -> new NotFoundException("Бронь не найдена"));
 
         Item item = booking.getItem();
 
         if (!booking.getBooker().getId().equals(userId)
                 && !item.getOwner().getId().equals(userId)) {
-            throw new IllegalStateException("Нет доступа");
+            throw new NotFoundException("Нет доступа");
         }
 
         return BookingMapper.toResponseDto(
@@ -143,7 +143,7 @@ public class BookingServiceImpl implements BookingService {
         }
 
         if (item.getOwner().getId().equals(userId)) {
-            throw new IllegalArgumentException("Нельзя бронировать свою вещь");
+            throw new NotFoundException("Нельзя бронировать свою вещь");
         }
 
         if (dto.getStart() == null || dto.getEnd() == null) {
