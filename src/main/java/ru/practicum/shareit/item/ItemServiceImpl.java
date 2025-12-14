@@ -17,7 +17,6 @@ import ru.practicum.shareit.user.User;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
