@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.Collection;
 
 @RestController
@@ -39,9 +38,9 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public UserDto update(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
-        log.info("Обновление пользователя с ID {}: {}", id, userDto);
-        return userService.updateUser(id, userDto);
+    public UserDto update(@PathVariable Long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
+        log.info("Обновление пользователя с ID {}: {}", id, userUpdateDto);
+        return userService.updateUser(id, userUpdateDto);
     }
 
     @DeleteMapping("/{id}")

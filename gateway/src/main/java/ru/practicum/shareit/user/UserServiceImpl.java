@@ -59,17 +59,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Long id, UserDto dto) {
-        var response = userClient.updateUser(id, dto);
-
-        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            return response.getBody();
+    public UserDto updateUser(Long id, UserUpdateDto userUpdateDto) {
+        var response = userClient.updateUser(id, userUpdateDto);
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new ResponseStatusException(
+                    response.getStatusCode(),
+                    "Failed to update user: " + response.getBody()
+            );
         }
-
-        throw new ResponseStatusException(
-                response.getStatusCode(),
-                response.getBody() != null ? response.getBody().toString() : "Failed to update user"
-        );
+        return response.getBody();
     }
 
     @Override

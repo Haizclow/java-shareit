@@ -28,8 +28,8 @@ public class UserClient extends BaseClient {
         return postTyped("", null, body, UserDto.class);
     }
 
-    public ResponseEntity<UserDto> updateUser(long userId, UserDto body) {
-        return patchTyped("/" + userId, null, body, UserDto.class);
+    public ResponseEntity<UserDto> updateUser(Long userId, UserUpdateDto userUpdateDto) {
+        return patchTyped("/" + userId, userId, userUpdateDto, UserDto.class);
     }
 
     public ResponseEntity<UserDto> getUser(long id) {
