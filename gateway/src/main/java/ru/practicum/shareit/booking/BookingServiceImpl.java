@@ -61,8 +61,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingResponseDto> getBookingsByUser(Long userId, String state, Integer from, Integer size) {
         var response = bookingClient.getBookingsByBooker(userId, state, from, size);
-        log.debug("STATUS: " + response.getStatusCode());
-        log.debug("BODY size: " + (response.getBody() != null ? response.getBody().size() : 0));
+        log.debug("STATUS: {}", response.getStatusCode());
+        log.debug("BODY size: {}", (response.getBody() != null ? response.getBody().size() : 0));
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new ResponseStatusException(

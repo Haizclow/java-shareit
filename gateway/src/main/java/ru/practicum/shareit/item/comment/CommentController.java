@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.comment;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class CommentController {
     public CommentDto addComment(
             @RequestHeader("X-Sharer-User-Id") Long userId,
             @PathVariable Long itemId,
-            @RequestBody CommentDto dto) {
+            @Valid @RequestBody CommentDto dto) {
         return service.addComment(userId, itemId, dto);
     }
 }

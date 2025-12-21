@@ -1,12 +1,12 @@
 package ru.practicum.shareit.request;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ItemRequestCreateDto {
     @NotBlank
+    @Size (max = 1000)
     private String description;
 }

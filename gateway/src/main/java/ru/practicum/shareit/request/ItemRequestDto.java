@@ -6,8 +6,7 @@ import ru.practicum.shareit.item.ItemShortDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
